@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">BigNum</string>
+    <string name="result">result</string>
+    <string name="correct">correct</string>
+    <string name="wrong">wrong</string>
+    <string name="instructions_of_the_game">instructions of the game</string>
+    <string name="instructions_text">Press the button which is having showing number</string>
+    <string name="result_signal">result signal</string>
+    <string name="reset">Reset</string>
+</resources>
