@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private var counter : Int = 0
     private var score : Int = 0
     private var limit : Int = 15
+    private val maxValue = 100
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         restartGame()
-        binding.resultSignal.setImageResource(R.drawable.ic_baseline_pending_24)
 
 
         // when button 1 is pressed
@@ -53,41 +53,70 @@ class MainActivity : AppCompatActivity() {
 
         //when Quit button is pressed
         binding.quit.setOnClickListener {
-            showFinalOutputDialog()
+            quitInBetween()
         }
 
-        binding.quit.setOnClickListener {
-            val alertDialog = AlertDialog.Builder(this)
-
-            alertDialog.apply {
-                setTitle("!! Game is Not Completed Yet !!")
-                setMessage("Your Score : $score / $limit")
-
-                //quit the game
-                setNegativeButton("Quit") { _, _ ->
-                    quitGame()
-                }
-
-                setPositiveButton("Continue"){_,_ ->
-
-                }
-
-            }.create().show()
+        //when restart is pressed
+        binding.restart.setOnClickListener {
+            toast("Restarting the game")
+            restartGame()
         }
 
+
+
+    }
+
+    private fun quitInBetween() {
+
+        val alertDialog = AlertDialog.Builder(this)
+
+        alertDialog.apply {
+            setTitle("!! Game is Not Completed Yet !!")
+            setMessage("Your Score : $score / $limit")
+
+            //quit the game
+            setNegativeButton("Quit") { _, _ ->
+                quitGame()
+            }
+
+            setPositiveButton("Cancel"){_,_ ->
+
+            }
+
+        }.create().show()
     }
 
 
     // function to update numbers on both of the buttons and to show default image
     private fun generateNumbers() {
+
         // generating two random values
-        num1 = (1..100).random()
-        num2 = (1..100).random()
+        num1 = (1..maxValue).random()
+        num2 = (1..maxValue).random()
+        while(num2!! == num1!!){
+            num2 = (1..maxValue).random()
+        }
 
         oneIsGreater = num1!! > num2!!
 
+        // updating the text of the buttons
         binding.number1.text = num1.toString()
         binding.number2.text = num2.toString()
+    }
+
+    private fun showScore()
+    {
+        // shows the score to the user
+        binding.score.text = "Score : $score / $counter"
+    }
+    private fun restartGame(){
+        score = 0
+        counter = 0
+
+        // show current score = 0
+        showScore()
+        generateNumbers()
+
     }
 
     private fun showNext(){
@@ -98,37 +127,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun showScore()
-    {
-        binding.score.text = "score : $score / $counter"
-    }
     private fun updateScore (){
         // updating the result and result signal
         counter++
         if(oneIsPressed!! == oneIsGreater!! ) {
             score++
             binding.resultSignal.setImageResource(R.drawable.right)
+            toast("BigNum!!")
         }
         else {
 
             binding.resultSignal.setImageResource(R.drawable.wrong)
+            toast("Oops!!")
+
         }
         showScore()
         showNext()
 
     }
 
-
-    private fun restartGame(){
-        score = 0
-        counter = 0
-
-        // show current score = 0
-        showScore()
-        generateNumbers()
-
-    }
 
     private fun quitGame()
     {
@@ -152,6 +169,7 @@ class MainActivity : AppCompatActivity() {
                 toast("Restarting the game")
                 restartGame()
             }
+
             //quit the game
             setNegativeButton("Quit") { _, _ ->
                 quitGame()

@@ -9,4 +9,5 @@
     <string name="restart">Restart</string>
     <string name="quit">Quit</string>
     <string name="app_logo">app_logo</string>
+    <string name="restart_the_game">Start Again</string>
 </resources>
