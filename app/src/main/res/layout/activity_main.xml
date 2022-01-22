@@ -8,41 +8,60 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/instruction"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:textAlignment="center"
-        android:contentDescription="@string/instructions_of_the_game"
-        android:text="@string/instructions_text"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="4dp">
+
+
+        <TextView
+            android:id="@+id/score"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_baseline_stars_24"
+            android:padding="8dp"
+            android:text="Score 5 / 10"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/instruction"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:padding="4dp"
+            android:id="@+id/instruction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/instructions_of_the_game"
+            android:text="@string/instructions_text"
+            android:textAlignment="center"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/score" />
 
 
         <ImageView
-            android:id="@+id/result_signal"
+            android:id="@+id/app_logo"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:contentDescription="@string/result_signal"
+            android:contentDescription="@string/app_logo"
             android:padding="8dp"
             android:scaleType="fitStart"
             app:layout_constraintEnd_toStartOf="@+id/number2"
             app:layout_constraintStart_toEndOf="@id/number1"
             app:layout_constraintTop_toBottomOf="@+id/instruction"
-            tools:srcCompat="@drawable/right_wrong" />
+            app:srcCompat="@drawable/right_wrong" />
 
     <Button
         android:id="@+id/number1"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:text=""
+        android:background="@drawable/round_button"
+        android:textSize="18sp"
         tools:text="1"
+        android:textAlignment="center"
         app:layout_constraintBaseline_toBaselineOf="@+id/number2"
         app:layout_constraintStart_toStartOf="@+id/instruction" />
 
@@ -52,38 +71,41 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginTop="256dp"
-        android:text=""
+        android:background="@drawable/round_button"
         tools:text="4"
+        android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/instruction"
         app:layout_constraintTop_toBottomOf="@+id/instruction" />
 
-        <TextView
-            android:id="@+id/result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            android:paddingTop="16dp"
-            android:text="@string/result"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintEnd_toEndOf="@+id/number2"
-            app:layout_constraintStart_toStartOf="@+id/number1"
-            app:layout_constraintTop_toBottomOf="@+id/result_signal" />
+        <ImageView
+            android:id="@+id/result_signal"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:contentDescription="@string/result_signal"
+            android:padding="8dp"
+            android:scaleType="fitStart"
+            app:layout_constraintStart_toStartOf="@id/number1"
+            app:layout_constraintEnd_toEndOf="@id/number2"
+            app:layout_constraintTop_toBottomOf="@id/app_logo"
+            app:srcCompat="@drawable/right" />
 
         <Button
-            android:id="@+id/reset"
+            android:id="@+id/quit"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:padding="16dp"
-            android:text="@string/reset"
+            android:text="@string/quit"
             android:textColor="#420505"
             android:textColorHighlight="#A48A16"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/result_signal"
+            app:layout_constraintEnd_toEndOf="@+id/number2"
             app:layout_constraintHorizontal_bias="0.495"
-            app:layout_constraintStart_toStartOf="@+id/result_signal"
-            app:layout_constraintTop_toBottomOf="@+id/result" />
+            app:layout_constraintStart_toStartOf="@+id/number1"
+            app:layout_constraintTop_toBottomOf="@id/result_signal"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

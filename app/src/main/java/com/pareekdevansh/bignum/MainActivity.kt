@@ -2,6 +2,8 @@ package com.pareekdevansh.bignum
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.pareekdevansh.bignum.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +22,11 @@ class MainActivity : AppCompatActivity() {
     // one was pressed or not
     private var oneIsPressed: Boolean? = null
 
+    // keeping track of score
+    private var counter : Int = 0
+    private var score : Int = 0
+    private var limit : Int = 15
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,29 +35,50 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        reset()
+        restartGame()
+        binding.resultSignal.setImageResource(R.drawable.ic_baseline_pending_24)
+
 
         // when button 1 is pressed
         binding.number1.setOnClickListener {
             oneIsPressed = true
-            showResult()
+            updateScore()
         }
 
         //when button 2 is pressed
         binding.number2.setOnClickListener {
             oneIsPressed = false
-            showResult()
+            updateScore()
         }
 
-        //when reset button is pressed
-        binding.reset.setOnClickListener {
-            reset()
+        //when Quit button is pressed
+        binding.quit.setOnClickListener {
+            showFinalOutputDialog()
         }
 
+        binding.quit.setOnClickListener {
+            val alertDialog = AlertDialog.Builder(this)
+
+            alertDialog.apply {
+                setTitle("!! Game is Not Completed Yet !!")
+                setMessage("Your Score : $score / $limit")
+
+                //quit the game
+                setNegativeButton("Quit") { _, _ ->
+                    quitGame()
+                }
+
+                setPositiveButton("Continue"){_,_ ->
+
+                }
+
+            }.create().show()
+        }
 
     }
 
-    // function to update numbers on both of the buttons
+
+    // function to update numbers on both of the buttons and to show default image
     private fun generateNumbers() {
         // generating two random values
         num1 = (1..100).random()
@@ -62,23 +90,75 @@ class MainActivity : AppCompatActivity() {
         binding.number2.text = num2.toString()
     }
 
-    private fun showResult()
+    private fun showNext(){
+        if(counter == limit) showFinalOutputDialog ()
+        else
+        {
+            generateNumbers()
+        }
+    }
+
+
+    private fun showScore()
     {
+        binding.score.text = "score : $score / $counter"
+    }
+    private fun updateScore (){
         // updating the result and result signal
+        counter++
         if(oneIsPressed!! == oneIsGreater!! ) {
-            binding.result.text = getString(R.string.correct)
+            score++
             binding.resultSignal.setImageResource(R.drawable.right)
         }
         else {
-            binding.result.text = getString(R.string.wrong)
+
             binding.resultSignal.setImageResource(R.drawable.wrong)
         }
+        showScore()
+        showNext()
 
     }
 
-    private fun reset(){
-        binding.resultSignal.setImageResource(R.drawable.right_wrong)
-        binding.result.text = getString(R.string.result)
+
+    private fun restartGame(){
+        score = 0
+        counter = 0
+
+        // show current score = 0
+        showScore()
         generateNumbers()
+
     }
+
+    private fun quitGame()
+    {
+
+        toast("Quitting the game")
+        finishAffinity()
+    }
+
+    private fun toast(text: String) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+
+    private fun showFinalOutputDialog (){
+
+        val alertDialog = AlertDialog.Builder(this)
+
+        alertDialog.apply {
+            setTitle("!!Game is Completed!!")
+            setMessage("Your Score : $score / $limit")
+
+            // restart the game
+            setPositiveButton("Restart") { _, _ ->
+                toast("Restarting the game")
+                restartGame()
+            }
+            //quit the game
+            setNegativeButton("Quit") { _, _ ->
+                quitGame()
+            }
+
+        }.create().show()
+    }
+
+
 }
